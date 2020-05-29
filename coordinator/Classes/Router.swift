@@ -88,14 +88,12 @@ public class Router {
 
         var modules = [UIModule]()
 
-        for module in self.modules {
-            if module === module {
-                print("unlink: ", module)
-            }
-            if module.viewControllers.contains(where: { $0.value != nil }) {
-                modules.append(module)
-            } else {
-                print("unlink: ", module)
+        for item in self.modules {
+            if item === module {
+                print("unlink: module ", module)
+                break
+            } else if item.viewControllers.contains(where: { $0.value != nil }) {
+                modules.append(item)
             }
         }
 
