@@ -1,5 +1,5 @@
 //
-//  AAAModule.swift
+//  CCCModule.swift
 //  coordinator_Example
 //
 //  Created by 林翰 on 2020/5/29.
@@ -10,14 +10,18 @@ import UIKit
 import Stem
 import coordinator
 
-class AAAModule: UIModule {
+class CCCModule: UIModule {
+
+    var showType: UIModuleShowType {
+        .present
+    }
 
     var viewControllers: [WeakBox<UIViewController>] = []
-    var rootController: UIViewController { AAA1ViewController() }
+    var rootController: UIViewController { UINavigationController(rootViewController: CCC1ViewController()) }
 
 }
 
-class AAA1ViewController: UIViewController {
+class CCC1ViewController: UIViewController {
 
     lazy var button1: UIButton = {
         let item = UIButton()
@@ -32,9 +36,9 @@ class AAA1ViewController: UIViewController {
     lazy var button2: UIButton = {
         let item = UIButton()
         item.backgroundColor = UIColor.st.random
-        item.setTitle("present module", for: .normal)
-        item.st.add(for: .touchUpInside) { _ in
-            router?.link(CCCModule())
+        item.setTitle("push Self", for: .normal)
+        item.st.add(for: .touchUpInside) { [weak self] _ in
+            self?.module?.push(vc: CCC1ViewController())
         }
         return item
     }()
@@ -42,19 +46,9 @@ class AAA1ViewController: UIViewController {
     lazy var button3: UIButton = {
         let item = UIButton()
         item.backgroundColor = UIColor.st.random
-        item.setTitle("push Self", for: .normal)
-        item.st.add(for: .touchUpInside) { [weak self] _ in
-            self?.module?.push(vc: AAA1ViewController())
-        }
-        return item
-    }()
-
-    lazy var button4: UIButton = {
-        let item = UIButton()
-        item.backgroundColor = UIColor.st.random
         item.setTitle("present Self", for: .normal)
         item.st.add(for: .touchUpInside) { [weak self] _ in
-            self?.module?.present(vc: UINavigationController(rootViewController: AAA1ViewController()))
+            self?.module?.present(vc: UINavigationController(rootViewController: CCC1ViewController()))
         }
         return item
     }()
@@ -63,11 +57,10 @@ class AAA1ViewController: UIViewController {
         super.viewDidLoad()
         title = String(describing: Self.self)
         view.backgroundColor = UIColor.st.random
-        view.st.addSubviews(button1, button2, button3, button4)
+        view.st.addSubviews(button1, button2, button3)
         button1.frame = CGRect(x: 0, y: 100, width: view.bounds.width, height: 60)
         button2.frame = CGRect(x: 0, y: button1.frame.maxY + 10, width: view.bounds.width, height: 60)
         button3.frame = CGRect(x: 0, y: button2.frame.maxY + 10, width: view.bounds.width, height: 60)
-        button4.frame = CGRect(x: 0, y: button3.frame.maxY + 10, width: view.bounds.width, height: 60)
     }
 
 }
